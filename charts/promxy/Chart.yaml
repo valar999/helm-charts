@@ -14,3 +14,9 @@ sources:
 keywords:
   - prometheus
   - promxy
+annotations:
+  "artifacthub.io/links": |
+    - name: Chart Source
+      url: https://github.com/valar999/helm-charts
+    - name: Source
+      url: https://github.com/jacksontj/promxy
