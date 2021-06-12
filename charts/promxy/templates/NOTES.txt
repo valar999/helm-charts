@@ -1,0 +1,5 @@
+promxy has been installed. Check its status by running:
+  kubectl --namespace {{ .Release.Namespace }} get pods -l "app.kubernetes.io/instance={{ $.Release.Name }}"
+
+The application can be accessed by:
+  kubectl --namespace {{ .Release.Namespace }} port-forward svc/{{ include "promxy.fullname" . }} 9090

@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "promxy.fullname" . }}
+  labels:
+    {{- include "promxy.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "promxy.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "promxy.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "promxy.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: promxy
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - "--config=/etc/promxy/config.yaml"
+            - "--web.enable-lifecycle"
+          ports:
+            - name: web
+              containerPort: 8082
+              protocol: TCP
+          volumeMounts:
+            - mountPath: "/etc/promxy/"
+              name: promxy-config
+              readOnly: true
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: web
+              scheme: HTTP
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: web
+              scheme: HTTP
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+
+        {{- if .Values.configmapReload.enabled }}
+        - name: configmap-reload
+          image: "{{ .Values.configmapReload.image.repository }}:{{ .Values.configmapReload.image.tag }}"
+          imagePullPolicy: "{{ .Values.configmapReload.image.pullPolicy }}"
+          args:
+            - --volume-dir=/etc/promxy
+            - --webhook-url=http://localhost:8082/-/reload
+          resources:
+            {{- toYaml .Values.configmapReload.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: "/etc/promxy/"
+              name: promxy-config
+              readOnly: true
+        {{- end }}
+
+      volumes:
+        - name: promxy-config
+          configMap:
+            name: {{ include "promxy.fullname" . }}
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
