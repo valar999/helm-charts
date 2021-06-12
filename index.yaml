@@ -1,0 +1,24 @@
+apiVersion: v1
+entries:
+  promxy:
+  - apiVersion: v2
+    appVersion: v0.0.70
+    created: "2021-06-12T11:33:40.803745149Z"
+    description: An aggregating proxy to enable HA prometheus
+    digest: e7409a83578a9c012110f05af3a2ebb3e3db346cb0a78e278d7e5d9f9e0aa842
+    home: https://github.com/jacksontj/promxy
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    keywords:
+    - prometheus
+    - promxy
+    maintainers:
+    - email: valar999@gmail.com
+      name: Oleksiy Pyltsov
+    name: promxy
+    sources:
+    - https://github.com/jacksontj/promxy
+    type: application
+    urls:
+    - https://github.com/valar999/helm-charts/releases/download/promxy-0.9.1/promxy-0.9.1.tgz
+    version: 0.9.1
+generated: "2021-06-12T11:33:40.804087152Z"
