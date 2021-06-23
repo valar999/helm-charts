@@ -1,6 +1,32 @@
 apiVersion: v1
 entries:
   promxy:
+  - annotations:
+      artifacthub.io/links: |
+        - name: Chart Source
+          url: https://github.com/valar999/helm-charts
+        - name: Source
+          url: https://github.com/jacksontj/promxy
+    apiVersion: v2
+    appVersion: v0.0.70
+    created: "2021-06-23T09:45:30.322603379Z"
+    description: An aggregating proxy to enable HA prometheus
+    digest: e674a623e71f526f2a05dfede13c81c9d434b4a2235e1065503c7cd68ed6da9f
+    home: https://github.com/jacksontj/promxy
+    icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
+    keywords:
+    - prometheus
+    - promxy
+    maintainers:
+    - email: valar999@gmail.com
+      name: Oleksiy Pyltsov
+    name: promxy
+    sources:
+    - https://github.com/jacksontj/promxy
+    type: application
+    urls:
+    - https://github.com/valar999/helm-charts/releases/download/promxy-0.9.2/promxy-0.9.2.tgz
+    version: 0.9.2
   - apiVersion: v2
     appVersion: v0.0.70
     created: "2021-06-12T11:33:40.803745149Z"
@@ -21,4 +47,4 @@ entries:
     urls:
     - https://github.com/valar999/helm-charts/releases/download/promxy-0.9.1/promxy-0.9.1.tgz
     version: 0.9.1
-generated: "2021-06-12T11:33:40.804087152Z"
+generated: "2021-06-23T09:45:30.32261198Z"
